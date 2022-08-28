@@ -1,4 +1,4 @@
-# dynamic-tripwire
+# Browser Tester
 
 ## Requirements
 
