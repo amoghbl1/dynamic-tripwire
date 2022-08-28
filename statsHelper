@@ -1,0 +1,230 @@
+#!/bin/bash
+
+CURRENT_DIR="$(dirname "$(readlink -f "$0")")"
+LOGS_DIR="$CURRENT_DIR/mitm-logs/"
+SHOTS_DIR="$CURRENT_DIR/screenshots/"
+DOMS_FILE="grep_dom.json"
+PII_FILE="json/grep_pii.json"
+SUCCESSFUL_LOADS_SCRIPT="./stats_scripts/successful_loads.py"
+GEN_HTML_DIFF="./stats_scripts/generate_html_diff.py"
+COMPILE_HTML_DIFF="./stats_scripts/compile_html_diff.py"
+GEN_CSV_SCRIPT="./stats_scripts/generate_csvs.py"
+CLEAN_STATS_SCRIPT="./stats_scripts/clean_stats.py"
+STATS_ADDON_SCRIPT="./stats_scripts/stats_*addon.py"
+UA_STATS_SCRIPT="./stats_scripts/ua_stats.py"
+PLOT_PASSING_SCRIPT="./stats_scripts/plot_passing.py"
+FSMON_STATS_SCRIPT="./stats_scripts/fsmon_stats.py"
+COMPILE_HARM_PROTECT_DATA="./stats_scripts/compile_harm_protect_features.py"
+COMPILE_REQUEST_HARM_PROTECT="./stats_scripts/compile_request_harm_protect.py"
+PLOT_HARM_PROTECT_DATA="./stats_scripts/plot_harm_protect_graph.py"
+PLOTPASS_CDF_FILE="passing_cdf.jpg"
+BASELINE_POSTFIX="com.homezoneproject.mywebviewapp"
+
+REFERER_CHAIN_SCRIPT="./stats_scripts/referer_chain_addon.py"
+INITIAL_REFERER_FILE="initial_referers.json"
+
+function usage() {
+    echo "Usage: $ME <command> <path>*"
+}
+
+function help() {
+    echo "This script helps process test logs."
+    echo
+    usage
+    echo
+    echo Commands                  Arguments    Info
+    echo ==================================================================================
+    echo
+    echo "(gen|compile)mitm        <path>       Process logs at the given path."
+    echo
+    echo "gencrawlrequests         <path>*      Geneate crawlRequests.json file, divides test and non-test requests for a browser."
+    echo
+    echo "compilerequestharmprotect  <path>*      Generates harm protect data from crawlRequests.json."
+    echo
+    echo "(gen|compile)html        <path>       Print the html differences with baseline."
+    echo
+    echo "compileharmprotect                    Compiles and generates harm protect graph."
+    echo
+    echo "passing                  <path>       Generate stats for page load results."
+    echo
+    echo "plotpass                 <path>       Plot cdf of pages successfully loaded."
+    echo
+    echo "ship                     <path>*      Create and copy multiple stats."
+    echo
+    echo "fsmon                    <path>*      Generate fsmon stats."
+}
+
+function permcheck() {
+    if ! [ $(id -u) = 0 ]; then
+       echo "Permission denied (you must be root)"
+       exit 1
+    fi
+}
+
+function paramcheck() {
+    if [ "$1" -ne 2 ]; then
+        echo "Please supply path to process stats..."
+        exit 1
+    fi
+}
+
+function dircheck() {
+    if [ ! -d $1 ]; then
+        echo "$1 does not exist :/"
+        exit 1
+    fi
+}
+
+function compilefsmon() {
+    echo "Compiling fsmon stats..."
+    $FSMON_STATS_SCRIPT "$@"
+}
+
+function genhtml() {
+    echo "Generating html stats..."
+    LOGS_DIR="$2/logs"
+    BASELINE_DIR="$LOGS_DIR/baseline/"
+    BASELINE_UP="$BASELINE_DIR/logs/$BASELINE_POSTFIX"
+    RESULTS_FILE="$2/htmlDiffStats.json"
+    dircheck $LOGS_DIR
+    dircheck $BASELINE_DIR
+    for uploadfile in `ls $LOGS_DIR/*.upload`
+    do
+        $GEN_HTML_DIFF --baseline "$BASELINE_UP" --browser "$uploadfile" --results "$RESULTS_FILE"
+    done
+}
+
+function compilehtml() {
+    $COMPILE_HTML_DIFF $@
+}
+
+function genmitm() {
+    LOGS_DIR="$2/logs"
+    BASELINE_DIR="$LOGS_DIR/baseline/"
+    ALL_STATS="$2/allStats.json"
+    DOMS_FILE="$2/$DOMS_FILE"
+    dircheck $LOGS_DIR
+    dircheck $BASELINE_DIR
+    echo "Overwriting $ALL_STATS file with placeholder empty JSON."
+    echo "{}" > "$ALL_STATS"
+    echo "Compiling the baselines..."
+    for i in `ls $BASELINE_DIR/logs/*$BASELINE_POSTFIX.dump`; do
+        baseline_name=`echo $i | rev | cut -f1 -d/ | cut -f2- -d. | rev`
+        mitmdump --set baseline="$BASELINE_DIR/$baseline_name.pickle" --set write=true -q -s $STATS_ADDON_SCRIPT -r "$BASELINE_DIR/logs/$baseline_name.dump"
+    done
+    for i in `ls $BASELINE_DIR/logs/*$BASELINE_POSTFIX.dump`; do
+        baseline_name=`echo $i | rev | cut -f1 -d/ | cut -f2- -d. | rev`
+        # Also write stats from the baseline crawl to the allStats file for later.
+        mitmdump --set baseline="$BASELINE_DIR/$baseline_name" --set pii="$PII_FILE" --set domains="$DOMS_FILE" --set results="$ALL_STATS" -q -s $STATS_ADDON_SCRIPT -r "$BASELINE_DIR/logs/$baseline_name.dump"
+    done
+    for dumpfile in `ls $LOGS_DIR/*.dump`
+    do
+        echo "$dumpfile"
+        mitmdump --set baseline="$BASELINE_DIR/$BASELINE_POSTFIX" --set pii="$PII_FILE" --set domains="$DOMS_FILE" --set results="$ALL_STATS" -q -s $STATS_ADDON_SCRIPT -r "$dumpfile"
+    done
+}
+
+function gencrawlrequests() {
+    LOGS_DIR="$2/logs"
+    CRAWL_REQUESTS="$2/crawlRequests.json"
+    INITIAL_REFERER_FILE="$2/$INITIAL_REFERER_FILE"
+    dircheck $LOGS_DIR
+    echo "Overwriting $CRAWL_REQUESTS file with placeholder empty JSON."
+    echo "{}" > "$CRAWL_REQUESTS"
+    echo "Generating crawl requests..."
+    for dumpfile in `ls $LOGS_DIR/*.dump`
+    do
+        echo "$dumpfile"
+        mitmdump --set initialreferers="$INITIAL_REFERER_FILE" --set results="$CRAWL_REQUESTS" -q -s $REFERER_CHAIN_SCRIPT -r "$dumpfile"
+    done
+
+}
+
+function compilerequestharmprotect() {
+    $COMPILE_REQUEST_HARM_PROTECT $@
+}
+
+function cleanmitm() {
+    echo "Cleaning genmitm stats..."
+    for var in "${@:2}"
+    do
+        $CLEAN_STATS_SCRIPT $var
+    done
+}
+
+function compilemitm() {
+    cleanmitm $@
+    # compilefsmon ${@:2}
+    echo "Compiling csvs..."
+    $GEN_CSV_SCRIPT "${@:2}"
+    echo "Generating UA stats..."
+    $UA_STATS_SCRIPT "${@:2}"
+}
+
+if [ "$1" == "genmitm" ]; then
+    paramcheck $#
+    genmitm $@
+
+elif [ "$1" == "gencrawlrequests" ]; then
+    paramcheck $#
+    gencrawlrequests $@
+
+elif [ "$1" == "compilerequestharmprotect" ]; then
+    paramcheck $#
+    compilerequestharmprotect ${@:2}
+
+elif [ "$1" == "compilemitm" ]; then
+    compilemitm $@
+
+elif [ "$1" == "html" ]; then
+    paramcheck $#
+    genhtml $@
+    compilehtml ${@:2}
+
+elif [ "$1" == "genhtml" ]; then
+    paramcheck $#
+    genhtml $@
+
+elif [ "$1" == "compilehtml" ]; then
+    compilehtml ${@:2}
+
+elif [ "$1" == "passing" ]; then
+    paramcheck $#
+    LOGS_DIR="$2/logs"
+    RESULTS_FILE="$2/successPageLoads.json"
+    DOMS_FILE="$2/$DOMS_FILE"
+    if [ ! -d "$LOGS_DIR" ]
+    then
+        echo "$LOGS_DIR/logs doesn't exist :/"
+        exit 1
+    fi
+    for pageloadfile in `ls $LOGS_DIR/*pageload.json`
+    do
+        $SUCCESSFUL_LOADS_SCRIPT --pageload "$pageloadfile" --results "$RESULTS_FILE" --domains "$DOMS_FILE"
+    done
+
+elif [ "$1" == "plotpass" ]; then
+    paramcheck $#
+    LOGS_DIR="$2/logs"
+    RESULTS_FILE="$2/successPageLoads.json"
+    PLOTPASS_CDF_FILE="$2/$PLOTPASS_CDF_FILE"
+    dircheck $LOGS_DIR
+    # TODO: Write and add cdf plotting script here.
+    $PLOT_PASSING_SCRIPT --results "$RESULTS_FILE" --cdffile "$PLOTPASS_CDF_FILE"
+
+elif [ "$1" == "ship" ]; then
+    compilemitm $@
+    echo "Copying files to the paper..."
+    cp combined_stats/*.csv ~/Research/papers/mobile-browser/plots/
+    cp combined_stats/*.pdf ~/Research/papers/mobile-browser/figures/
+
+elif [ "$1" == "fsmon" ]; then
+    compilefsmon ${@:2}
+
+elif [ "$1" == "compileharmprotect" ]; then
+    $COMPILE_HARM_PROTECT_DATA
+    $PLOT_HARM_PROTECT_DATA
+
+else
+    help
+fi

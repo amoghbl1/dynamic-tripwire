@@ -1,0 +1,90 @@
+{
+    "history_log": {
+        "xw.qq.com": [
+            "btrace.qq.com",
+            "otheve.beacon.qq.com",
+            "btrace.video.qq.com",
+            "pingtas.qq.com",
+            "pingfore.qq.com",
+            "trace.qq.com"
+        ],
+        "uu.163.com":[
+            "analytics.163.com"
+        ],
+        "chinalawandpolicy.com": [
+            "platform.twitter.com",
+            "graph.facebook.com",
+            "ssl.google-analytics.com"
+        ],
+        "clb.org.hk": [
+            "www.google-analytics.com"
+        ],
+        "cnpolitics.org": [
+            "www.google-analytics.com"
+        ],
+        "m.intl.taobao.com": [
+            "err.tmall.com",
+            "gm.mmstat.com",
+            "log.mmstat.com"
+        ],
+        "m.sm.cn": [
+            "dns.m.sm.cn",
+            "err.taobao.com",
+            "market.m.taobao.com",
+            "wgo.mmstat.com",
+            "log.mmstat.com"
+        ],
+        "finance.yahoo.com": [
+            "query1.finance.yahoo.com",
+            "query2.finance.yahoo.com"
+        ]
+    },
+    "pii_log": {
+        "1920": [
+            "pbs.twimg.com"
+        ],
+        "1080": [
+        ],
+        "2.625": [
+            "pbs.twimg.com",
+            "ssl.google-analytics.com",
+            "www.google-analytics.com"
+        ],
+        "42.3": [
+            "btrace.qq.com",
+            "clb.org.hk",
+            "m.intl.taobao.com",
+            "www.google-analytics.com",
+            "wgo.mmstat.com",
+            "syndication.twitter.com",
+            "amdc.m.taobao.com",
+            "pixel.wp.com"
+        ],
+        "71.0": [
+            "update.googleapis.com",
+            "amdc.m.taobao.com",
+            "syndication.twitter.com",
+            "www.facebook.com",
+            "pbs.twimg.com",
+            "pixel.wp.com"
+        ]
+    },
+    "ALL": [
+        "android.clients.google.com",
+        "xw.qq.com",
+        "view.inews.qq.com",
+        "btrace.video.qq.com",
+        "btrace.qq.com",
+        "trace.qq.com",
+        "otheve.beacon.qq.com",
+        "pingfore.qq.com",
+        "pacaio.match.qq.com",
+        "pingtas.qq.com",
+        "cfg.imtt.qq.com",
+        "log.tbs.qq.com",
+        "h5.m.taobao.com",
+        "h5api.m.taobao.com",
+        "h5api-intl.m.taobao.com",
+        "ocservice.taobao.com"
+    ]
+}

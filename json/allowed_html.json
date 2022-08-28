@@ -1,0 +1,126 @@
+{
+    "links": {
+        "ALL_START": [
+            "/",
+            "newtab:"
+        ],
+        "ALL_IN": [
+        ],
+        "ALL_IS": [
+            "",
+            "#",
+            "javascript:void(0)",
+            "javascript:void(0);",
+            "javascript:;",
+            "https://www.amazon.com/gp/product/0062834843/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=wwwdanielsilv-20&creative=9325&linkCode=as2&creativeASIN=0062834843&linkId=a833b2f0e88349151b0ca3dda08938bf"
+        ],
+        "www.booking.com": {
+            "starts": [], "ins": [
+                "https://ch.booking.com/"
+            ], "iss": []
+        },
+        "translate.google.com": {
+            "starts": ["https://www.google.com/"],
+            "ins": [],
+            "iss": []
+        },
+        "www.google.com": {
+            "starts": [
+                "https://www.google.com/",
+                "http://www.google.com/"
+            ],
+            "ins": [
+                "store.google.com/product/"
+            ],
+            "iss": [
+                "https://google.com/search/howsearchworks/",
+                "https://support.google.com/websearch/?p=ws_results_help&hl=en"
+            ]
+        },
+        "www.reddit.com": {
+            "starts": [
+                "https://v.redd.it/"
+            ],
+            "ins": [],
+            "iss": [
+                "https://lolesports.com/article/worlds-2020-update-format-changes/blt844a57584da327bf",
+                "https://www.bbc.com/future/gallery/20180810-villas-las-estrellas-antarctica-base-residents-surgery",
+                "https://www.businessinsider.com/barack-obama-endorses-joe-biden-dnc-speech-video-2020-8",
+                "https://www.drmani.com/subtle-art-not-giving-fck/",
+                "https://www.history.com/news/christopher-columbus-never-set-out-to-prove-the-earth-was-round",
+                "https://www.scpr.org/news/2020/08/19/94107/los-angeles-mayor-shuts-off-power-at-hollywood-hil/"
+            ]
+        },
+        "finance.yahoo.com":{
+            "starts": ["https://www.verizonmedia.com/"],
+            "ins": [],
+            "iss": [
+                "https://play.google.com/store/apps/details?id=com.protrade.sportacular",
+                "https://www.tumblr.com/"
+            ]
+        },
+        "m.twitch.tv": {
+            "starts": [
+                "intent://m.twitch.tv/",
+                "https://twitch.app.link/"
+            ],
+            "ins": [], "iss": []
+        },
+        "www.researchgate.net": {
+            "starts": [
+                "login?_sg=",
+                "scientific-recruitment?utm_source=researchgate",
+                "signup.SignUp.html?ev=su_chnl_index",
+                "topic/"
+            ],
+            "ins": [], "iss": []
+        },
+        "platform.twitter.comwidgets": {
+            "starts": [
+                "https://twitter.com/intent/"
+            ],
+            "ins": [], "iss": []
+        },
+        "www.xvideos.com": {
+            "starts": [
+                "http://rpc-php.trafficfactory.biz/click/"
+            ], "ins": [], "iss": [] 
+        },
+        "www.office.com": {
+            "starts": [], "ins": [], "iss": ["https://aka.ms/MicrosoftEdgeDownload"]
+        },
+        "TEMPLATE_FOR_DOMAIN": { "starts": [], "ins": [], "iss": [] }
+    },
+    "scripts": {
+        "ALL_START": [],
+        "ALL_IN": [
+            "aka-cdn.adtechus.com",
+            "src=\"https://app.link/_r?sdk=web",
+            "class=\"js-cal-inputs\"",
+            "src=\"../js/sfext-min.js\"",
+            "try{JAC.sandbox.unload()}catch(e){}",
+            "meaningful-paint",
+            "var placementId = '8653301c-cfcb-433d-83d2-a6a13b468a1f';",
+            "document.createElement(\"header\");document.createElement(\"section\");document.createElement(\"article\");document.createElement(\"figure\");document.createElement(\"nav\");document.createElement(\"aside\");document.createElement(\"footer\");"
+        ],
+        "ALL_IS": [
+        ],
+        "www.nih.gov": {
+            "starts": [],
+            "ins": [],
+            "iss": ["<script src=\"/sites/all/libraries/foresee/foresee-surveydef.js\" type=\"text/javascript\">\n</script>"]
+        },
+        "www.booking.com": {
+            "starts": [],
+            "ins": ["track_copy"],
+            "iss": []
+        }
+    },
+    "tags": {
+        "ALL_START": [],
+        "ALL_IN": [],
+        "ALL_IS": [
+            ""
+        ]
+    }
+}

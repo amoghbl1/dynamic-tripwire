@@ -1,0 +1,15 @@
+node_modules
+.DS_STORE
+apks.json
+filtered_apks.json
+dump
+apks
+screenshots
+triggered-pages
+not-triggered-pages
+nothing-happened.json
+.DS_STORE
+.slackHook
+combined_stats/*
+apk_scripts/*.json
+apk_scripts/*.txt
