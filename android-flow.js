@@ -23,13 +23,13 @@ const BASELINE_CACHE = `${BASELINE_DIR}/cache_file`;
 const BASELINE_SCREENSHOTS_DIR = `${BASELINE_DIR}/screenshots/`;
 
 // Helper related variables
-var APKS_JSON = 'apk_scripts/filtered_apks.json';
+var APKS_JSON = 'apk_lists/apks.json';
 if (INDIA_LIST) {
-    APKS_JSON = 'apk_scripts/india_apks.json';
+    APKS_JSON = 'apk_lists/india_apks.json';
 } else if (RUSSIA_LIST) {
-    APKS_JSON = 'apk_scripts/russia_apks.json';
+    APKS_JSON = 'apk_lists/russia_apks.json';
 } else if (CHINA_LIST) {
-    APKS_JSON = 'apk_scripts/china_apks.json';
+    APKS_JSON = 'apk_lists/china_apks.json';
 }
 
 const MITM_CTRL = `./mitm/mitmproxy-ctrl`;

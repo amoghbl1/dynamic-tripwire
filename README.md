@@ -22,15 +22,15 @@ This second interface is configured as the `MITM_INTERFACE` variable in the
 
 ## Set up requirements
 ### apks.json
-
 The APKs to be tested are defined in a json file, and also have to be named in a
 format using properties in this json file.
 The file itself is a list of objects containing at least 2 properties `app_hash`
 and `package_name`.
-An example can be found [here](apk_lists/apks.json)
+An example can be found [here](apk_lists/apks.json).
 
 The corresponding apks are expected to be in the `apks` folder, in the
-`package_name-app_hash.apk` format.
+`package_name-app_hash.apk` format as shown
+[here](apks/dynamic.test.package.name-APK_HASH.apk).
 
 ### android-flow.js
 The android-flow script expects apks to be in the `apks` folder and for them to
@@ -39,7 +39,6 @@ Once this is set up, this node script drives all the tests, the code is made
 readable to figure out what it does.
 
 ### mitmproxy-ctrl
-
 This script manages `mitmdump` and `iptables` to allow transparent proxy
 capabilities on a selected network interface.
 
@@ -47,14 +46,17 @@ Follow these steps to configure the script.
 1. Edit the `MITM_INTERFACE` variable in the script to the interface of your
 choice.
 2. Run the script `./mitmproxy-ctrl start test test`, to create the default
-directories (mitm-conf and mitm-logs) and to make sure you don't run into errors.
+directories (mitm-conf and mitm-logs) and to make sure you don't run into
+errors.
 
-Following these steps should make sure that all network requests coming in on the configured interface pass through mitm proxy, which can be verified by going through the log files.
+Following these steps should make sure that all network requests coming in on
+the configured interface pass through mitm proxy, which can be verified by going
+through the log files.
 
 ## Miscellaneous
 ### Play protect
-
-Depending on the version of Android running on the test device, it might have Google Play Protect enabled, which is a feature of the `Play Store` application.
+Depending on the version of Android running on the test device, it might have
+Google Play Protect enabled, which is a feature of the `Play Store` application.
 Disabling this is necessary as it blocks the installation of some applications.
 
 ## Installation
@@ -71,18 +73,11 @@ Disabling this is necessary as it blocks the installation of some applications.
 3. `node android-flow.js`
 4. `wait for a wile`
 
-the android-flow.js file is the entrypoint and mastermind of the process. Spawning mitmproxy and other necessary resources to be used during experminetation
-
-Known issues:
-* Many apps crash or do not open
-* Single page apps cause issues as they send javascript or a base html file which will be quite different from what gets rendered. So comparing the mobile rendered html against the post processed will give a  more accurate result
-* The activity or action used for an app may not be correct maybe there are better ways to find these
-
-Next steps:
-  * simulate devices to test preinstalled apks
+The android-flow.js file is the entrypoint and driver of the process.
+Spawning mitmproxy and other necessary resources to be used during
+experimentation.
 
 ## Steps to launch tests
-
 A general guideline to launch a test.
 
 1. Factory reset the device.
@@ -97,3 +92,15 @@ A general guideline to launch a test.
 10. Set up baseline browser.
 11. Populate `grep_pii.json` with identifiers related to this run.
 12. Launch tests, `node android-flow.js`.
+
+## Stats Helper
+
+To process all the data collected during these tests, we have a number of python
+files in `stats_scripts` which are all driven through a shell script
+`statsHelper`.
+
+Run `./statsHelper` to get a brief understanding of what different processing
+options are available.
+
+For the scripts themselves, reading code is the only way to figure out what they
+do.
