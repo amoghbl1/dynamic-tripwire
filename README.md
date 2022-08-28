@@ -11,33 +11,43 @@
 
 ## Network setup
 
-In order for transparent proxying to work, we require two network interfaces on the machine running the tests.
+In order for transparent proxying to work, we require two network interfaces on
+the machine running the tests.
 
-One interface connected to the internet (wired or wireless); the other, configured as a WiFi hotspot to which the test android device is connected.
+One interface connected to the internet (wired or wireless); the other,
+configured as a WiFi hotspot to which the test android device is connected.
 
-This second interface is configured as the `MITM_INTERFACE` variable in the `mitmproxy-ctrl` script.
+This second interface is configured as the `MITM_INTERFACE` variable in the
+`mitmproxy-ctrl` script.
 
 ## Set up requirements
-### get-apks.sh
-The get-apks script uses ssh to fetch information about the list of apks stored on golem.
-To use this, ssh needs to be configured as follows:
-```
-Host golem
-    HostName golem.homezone-project.com
-    Port 27
-    IdentityFile <SSH_KEY_TO_BE_USED>
-    User <USERNAME_HERE>
-```
+### apks.json
+
+The APKs to be tested are defined in a json file, and also have to be named in a
+format using properties in this json file.
+The file itself is a list of objects containing at least 2 properties `app_hash`
+and `package_name`.
+An example can be found [here](apk_lists/apks.json)
+
+The corresponding apks are expected to be in the `apks` folder, in the
+`package_name-app_hash.apk` format.
+
 ### android-flow.js
-The android-flow script uses scp to download apks from the server, an ssh setup similar to the previous requirement, to the same server is needed for this script to function properly.
+The android-flow script expects apks to be in the `apks` folder and for them to
+be specified in the `apks.json` file.
+Once this is set up, this node script drives all the tests, the code is made
+readable to figure out what it does.
 
 ### mitmproxy-ctrl
 
-This script manages `mitmdump` and `iptables` to allow transparent proxy capabilities on a selected network interface.
+This script manages `mitmdump` and `iptables` to allow transparent proxy
+capabilities on a selected network interface.
 
 Follow these steps to configure the script.
-1. Edit the `MITM_INTERFACE` variable in the script to the interface of your choice.
-2. Run the script `./mitmproxy-ctrl start test test`, to create the default directories (mitm-conf and mitm-logs) and to make sure you don't run into errors.
+1. Edit the `MITM_INTERFACE` variable in the script to the interface of your
+choice.
+2. Run the script `./mitmproxy-ctrl start test test`, to create the default
+directories (mitm-conf and mitm-logs) and to make sure you don't run into errors.
 
 Following these steps should make sure that all network requests coming in on the configured interface pass through mitm proxy, which can be verified by going through the log files.
 
@@ -51,13 +61,13 @@ Disabling this is necessary as it blocks the installation of some applications.
 ### For Mitmproxy and extension
 1. Install aforementioned requirements.
 2. Setup mobile device to use the base machine's hotspot, which is mitm'd.
-3. `git clone https://git.homezone-project.com/feal94/mobile-browsers-scripts.git`
+3. `git clone https://github.com/amoghbl1/dynamic-tripwire`
 4. `pip install -r requirements`
 
 ## Usage
 ### For flow
 1. `npm install`
-2. `./get-apks.sh`
+2. Set up `apks.json` and make sure files are in the apks folder.
 3. `node android-flow.js`
 4. `wait for a wile`
 

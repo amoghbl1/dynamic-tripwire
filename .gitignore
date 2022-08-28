@@ -13,3 +13,5 @@ nothing-happened.json
 combined_stats/*
 apk_scripts/*.json
 apk_scripts/*.txt
+protocs/messages_pb.js
+protocs/messages_pb2.py
