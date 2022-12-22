@@ -1,0 +1,12 @@
+adblockparser==0.7
+androguard==3.3.5
+beautifulsoup4==4.11.1
+brotli==1.0.9
+lxml==4.9.1
+matplotlib==3.6.2
+matplotlib_venn==0.11.7
+mitmproxy==9.0.1
+nest_asyncio==1.5.6
+numpy==1.23.4
+pandas==1.5.2
+pyshark==0.5.3
