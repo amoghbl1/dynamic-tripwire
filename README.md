@@ -1,5 +1,11 @@
 # Browser Tester
 
+Our browser testing framework is designed to test android browsers, on physical
+android devices and to drive them to visit websites.
+Thus we use a number of tools to achieve this.
+
+![Overview of the analysis framework](/figures/dynamic_analysis_components.pdf "Dynamic Analysis Framework")
+
 ## Requirements
 
 1. `iptables`
@@ -7,7 +13,9 @@
 3. `adb`
 4. `nodejs`
 5. `python3`
-6. `adb-sync`
+6. `python3-pip`
+7. `npm`
+8. `adb-sync`
 
 ## Network setup
 
@@ -52,6 +60,17 @@ errors.
 Following these steps should make sure that all network requests coming in on
 the configured interface pass through mitm proxy, which can be verified by going
 through the log files.
+
+### Protobuf
+Dynamic tripwire uses
+[Protocol Buffers](https://developers.google.com/protocol-buffers) for messages
+sent from `mitmproxy` to `nodejs`.
+For this to function, we need `protoc` installed, please follow
+[these instructions](https://github.com/protocolbuffers/protobuf#protocol-compiler-installation)
+or platform specific instructions to install this.
+
+Once installed, run the makefile in the `protocs` folder to generate the
+required protobuf files.
 
 ## Miscellaneous
 ### Play protect
