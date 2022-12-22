@@ -4,7 +4,7 @@ Our browser testing framework is designed to test android browsers, on physical
 android devices and to drive them to visit websites.
 Thus we use a number of tools to achieve this.
 
-![Overview of the analysis framework](/figures/dynamic_analysis_components.pdf "Dynamic Analysis Framework")
+![Overview of the analysis framework](/figures/dynamic_analysis_components.jpg "Dynamic Analysis Framework")
 
 ## Requirements
 
