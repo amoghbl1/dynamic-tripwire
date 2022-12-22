@@ -6,6 +6,12 @@ Thus we use a number of tools to achieve this.
 
 ![Overview of the analysis framework](/figures/dynamic_analysis_components.jpg "Dynamic Analysis Framework")
 
+For more details about the functionality of each component, please refer
+Section 4.2 "Dynamic Analysis" of our [paper](placeholder_link).
+
+This codebase implements the "Director" and "Gateway" in the above figure, as
+well as other glue required to perform tests.
+
 ## Requirements
 
 1. `iptables`
@@ -85,16 +91,13 @@ Disabling this is necessary as it blocks the installation of some applications.
 3. `git clone https://github.com/amoghbl1/dynamic-tripwire`
 4. `pip install -r requirements`
 
-## Usage
-### For flow
+### For Node
 1. `npm install`
-2. Set up `apks.json` and make sure files are in the apks folder.
-3. `node android-flow.js`
-4. `wait for a wile`
 
-The android-flow.js file is the entrypoint and driver of the process.
-Spawning mitmproxy and other necessary resources to be used during
-experimentation.
+### Protobuf
+1. Run `make` in the `protocs` folder
+
+This is required to generate the necessary protobuf files.
 
 ## Steps to launch tests
 A general guideline to launch a test.
@@ -110,7 +113,15 @@ A general guideline to launch a test.
 9. Set up VPN for the base machine.
 10. Set up baseline browser.
 11. Populate `grep_pii.json` with identifiers related to this run.
-12. Launch tests, `node android-flow.js`.
+12. Set up `apks.json` and make sure files are in the apks folder.
+13. Launch tests, `node android-flow.js`.
+
+Once the node script is launched, the console output should indicate the state
+of the tests.
+
+The `android-flow.js` file is the entrypoint and driver of the process.
+Spawning mitmproxy and other necessary resources to be used during
+experimentation.
 
 ## Stats Helper
 
