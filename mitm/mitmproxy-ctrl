@@ -62,6 +62,7 @@ function mitm-status {
 function mitm-stop()
 {
     # Stop TCPDump logging.
+    echo "Killing any tcpdump processes, if running..."
     killall tcpdump
     # Reset firewall rules
     iptables -t nat -D PREROUTING -j MITM &> /dev/null
@@ -101,6 +102,7 @@ function mitm-start()
     iptables -t nat -A MITM -i $MITM_INTERFACE -p tcp -m tcp -m multiport --dports $MITM_PORTS -j REDIRECT --to-ports $MITM_LISTENING_PORT
     # iptables -t nat -A MITM -i $MITM_INTERFACE -p udp --dport 53 -j REDIRECT --to-port 41234
     iptables -A INPUT -i $MITM_INTERFACE -p udp -m udp -m multiport --dports 1:52,54:65535 -j DROP
+    echo "Killing any tcpdump processes, if running..."
     killall tcpdump # Just to be sure.
     nohup tcpdump -i $MITM_INTERFACE -s0 -w $TCPDUMP_LOG > /dev/null 2>&1 & disown
     mkdir -p $MITM_CONF $LOGS_DIR
