@@ -5,11 +5,11 @@
     "dependencies": {
         "@slack/webhook": "5.0.1",
         "adbkit": "2.11.0",
-        "express": "4.17.1",
+        "express": ">=4.17.3",
         "gm": "1.23.1",
         "google-protobuf": "3.11.3",
         "selenium-webdriver": "4.0.0-alpha.1",
-        "shelljs": "0.8.3",
+        "shelljs": ">=0.8.5",
         "socket.io": "2.3.0",
         "woothee": "1.10.1"
     },
