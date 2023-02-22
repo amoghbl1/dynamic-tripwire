@@ -36,15 +36,14 @@ This second interface is configured as the `MITM_INTERFACE` variable in the
 
 ## Set up requirements
 ### apks.json
-The APKs to be tested are defined in a json file, and also have to be named in a
-format using properties in this json file.
-The file itself is a list of objects containing at least 2 properties `app_hash`
-and `package_name`.
-An example can be found [here](apk_lists/apks.json).
 
-The corresponding apks are expected to be in the `apks` folder, in the
-`package_name-app_hash.apk` format as shown
-[here](apks/dynamic.test.package.name-APK_HASH.apk).
+Each browser to be tested is supplied to `android-flow.js` as an [Android Package file](https://en.wikipedia.org/wiki/Apk_(file_format)).
+Since different versions of an APK might want to be tested, we use `package_name-app_hash.apk` as a unique identifier for an APK to be tested.
+Here, `app_hash` is a [SHA 256](https://en.wikipedia.org/wiki/SHA-2) hash of the APK file.
+
+An example of this can be found here](apk_lists/apks.json).
+In this case, `android-flow.js` would look for the APK `dynamic.test.package.name` with hash `APK_HASH` in the apks folder.
+Thus, it would look for `apks/dynamic.test.package.name-APK_HASH.apk` file to install and test on the physical device.
 
 ### android-flow.js
 The android-flow script expects apks to be in the `apks` folder and for them to
