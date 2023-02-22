@@ -22,6 +22,7 @@ well as other glue required to perform tests.
 6. `python3-pip`
 7. `npm`
 8. `adb-sync`
+9. `protoc`
 
 ## Network setup
 
@@ -34,7 +35,10 @@ configured as a WiFi hotspot to which the test android device is connected.
 This second interface is configured as the `MITM_INTERFACE` variable in the
 `mitmproxy-ctrl` script.
 
-## Set up requirements
+## Other requirements
+
+Each of the subsections here goes over a tool that is required to make different pieces of `dynamic-tripwire` work in order to successfully test android browsers.
+
 ### apks.json
 
 Each browser to be tested is supplied to `android-flow.js` as an [Android Package file](https://en.wikipedia.org/wiki/Apk_(file_format)).
@@ -79,13 +83,11 @@ or platform specific instructions to install this.
 Once installed, run the makefile in the `protocs` folder to generate the
 required protobuf files.
 
-## Miscellaneous
 ### Play protect
 Depending on the version of Android running on the test device, it might have
 Google Play Protect enabled, which is a feature of the `Play Store` application.
 Disabling this is necessary as it blocks the installation of some applications.
 
-## Installation
 ### For Mitmproxy and extension
 1. Install aforementioned requirements.
 2. Setup mobile device to use the base machine's hotspot, which is mitm'd.
@@ -103,19 +105,17 @@ This is required to generate the necessary protobuf files.
 ## Steps to launch tests
 A general guideline to launch a test.
 
-1. Factory reset the device.
-2. Disable play protect on the test device.
-3. Enable USB Debugging.
-4. Enable Stay awake.
-5. Install MITM certificate.
-6. Connect to the Wifi.
+1. Factory reset the device
+2. Disable play protect on the test device
+3. Enable USB Debugging
+4. Enable Stay awake
+5. Install MITM certificate
+6. Connect to the Wifi
 7. Install fsmon to `/data/local/tmp/`
-8. Apply any local changes to the test code if needed.
-9. Set up VPN for the base machine.
-10. Set up baseline browser.
-11. Populate `grep_pii.json` with identifiers related to this run.
-12. Set up `apks.json` and make sure files are in the apks folder.
-13. Launch tests, `node android-flow.js`.
+8. Set up baseline browser
+9. Populate `grep_pii.json` with identifiers related to this run
+10. Set up `apks.json` and make sure files are in the apks folder
+11. Launch tests, `node android-flow.js`
 
 Once the node script is launched, the console output should indicate the state
 of the tests.
