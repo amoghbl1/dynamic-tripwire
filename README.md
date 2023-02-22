@@ -45,6 +45,8 @@ An example of this can be found here](apk_lists/apks.json).
 In this case, `android-flow.js` would look for the APK `dynamic.test.package.name` with hash `APK_HASH` in the apks folder.
 Thus, it would look for `apks/dynamic.test.package.name-APK_HASH.apk` file to install and test on the physical device.
 
+The `APK_HASH` is not verified to be the hash of the APK, but the convention is used since this it is easy to distinguish versions using this.
+
 ### android-flow.js
 The android-flow script expects apks to be in the `apks` folder and for them to
 be specified in the `apks.json` file.
