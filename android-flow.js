@@ -53,7 +53,9 @@ const pexec = util.promisify( exec );
     const { exec, spawn } = require('child_process');
     const client          = adb.createClient();
 
-    var domainsToTest = [];
+    var domainsToTest = [
+        'https://github.com/amoghbl1/dynamic-tripwire'
+    ];
 
     if (CHINA_LIST) {
         domainsToTest = [
